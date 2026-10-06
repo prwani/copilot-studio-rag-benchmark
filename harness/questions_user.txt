@@ -1,0 +1,22 @@
+retrieval augmented generation for large language models
+reducing hallucinations in language model responses
+efficient fine tuning with low rank adaptation
+evaluating reasoning capabilities of large language models
+multimodal learning combining vision and language
+long context understanding and attention mechanisms
+knowledge distillation for smaller language models
+quantization techniques for efficient model inference
+reinforcement learning from human feedback
+synthetic data generation for training language models
+benchmarking mathematical reasoning in language models
+tool use and planning in autonomous AI agents
+improving factual accuracy through retrieval
+mixture of experts architectures and routing
+safety alignment and robustness of language models
+code generation and automated software engineering
+embedding models for semantic document retrieval
+instruction tuning and preference optimization
+inference time scaling and chain of thought reasoning
+data quality and deduplication for model pretraining
+For the speech-recognition model that supports verbatim and non-verbatim transcription, what word error rates do it and Whisper large-v3 achieve on Earnings21 and Earnings22? Calculate the absolute percentage-point improvement for each dataset and cite the source table.
+Which model extends Mistral from 32 to 36 transformer blocks? Describe its three pre-training phases, the context lengths in the first two phases, and the purpose of the final phase. Cite the supporting sections.
