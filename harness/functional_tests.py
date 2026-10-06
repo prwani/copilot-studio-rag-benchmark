@@ -37,13 +37,17 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--agent", required=True)
     ap.add_argument("--label", required=True)
+    ap.add_argument("--driver", choices=["rest", "sdk"], default="rest")
     a = ap.parse_args()
     qf = H / f"functional_{a.label}.txt"
     qf.write_text("\n".join(t[1] for t in TESTS) + "\n")
-    subprocess.run(["python3", str(H / "run.py"), "--agent", a.agent, "--runs", "1", "--label", a.label,
-                    "--questions-file", str(qf), "--auth", "device-code"], cwd=H.parent, capture_output=True, text=True)
+    script, out = ("run_sdk.py", "sdk_results.jsonl") if a.driver == "sdk" else ("run.py", "results.jsonl")
+    p = subprocess.run(["python3", str(H / script), "--agent", a.agent, "--runs", "1", "--label", a.label,
+                        "--questions-file", str(qf), "--auth", "device-code"], cwd=H.parent, capture_output=True, text=True)
+    if p.returncode:
+        print(p.stdout[-1500:], p.stderr[-1500:])
     recs = {}
-    for line in open(H / "results.jsonl"):
+    for line in open(H / out):
         r = json.loads(line)
         if r["label"] == a.label:
             recs[r["question_index"]] = r
