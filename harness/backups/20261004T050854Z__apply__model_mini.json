@@ -1,0 +1,26 @@
+{
+  "captured_at": "2026-10-04T05:08:54.155328+00:00",
+  "step": "model_mini",
+  "note": "apply:model_mini",
+  "clone_before": {
+    "bot": {
+      "id": "d6b522f1-a8bf-f111-aaaf-00224835685d",
+      "name": "PWSharepointAgent-Opt",
+      "publishedon": "2026-10-04T05:08:44Z",
+      "modifiedon": "2026-10-04T05:08:47Z",
+      "configuration": "{\n  \"$kind\": \"BotConfiguration\",\n  \"settings\": {\n    \"GenerativeActionsEnabled\": true\n  },\n  \"isAgentConnectable\": true,\n  \"gPTSettings\": {\n    \"$kind\": \"GPTSettings\",\n    \"defaultSchemaName\": \"new_PWSharepointAgentOpt.gpt.default\"\n  },\n  \"aISettings\": {\n    \"$kind\": \"AISettings\",\n    \"useModelKnowledge\": true,\n    \"isFileAnalysisEnabled\": true,\n    \"isSemanticSearchEnabled\": true,\n    \"contentModeration\": \"Low\",\n    \"optInUseLatestModels\": false\n  },\n  \"recognizer\": {\n    \"$kind\": \"GenerativeAIRecognizer\"\n  }\n}\n"
+    },
+    "gpt": {
+      "component_id": "59a25103-a9bf-f111-aaaf-00224835685d",
+      "name": "PWSharepointAgent-Opt",
+      "schemaname": "new_PWSharepointAgentOpt.gpt.default",
+      "data": "kind: GptComponentMetadata\ninstructions: You are helpful AI Agent that answers user's questions based on the knowledgebase provided.\ngptCapabilities:\n  webBrowsing: false\naISettings:\n  model:\n    modelNameHint: GPT56Chat\n"
+    },
+    "knowledge": {
+      "component_id": "a700c209-a9bf-f111-aaaf-00224835685d",
+      "name": "batch_01",
+      "schemaname": "new_PWSharepointAgentOpt.topic.batch_01_UdYzIvGoaEKDMGe3y1fao",
+      "data": "kind: KnowledgeSourceConfiguration\nsource:\n  kind: SharePointSearchSource\n  site: https://m365cpi88726844.sharepoint.com/sites/Contoso-Team-site/Shared%20Documents/arxiv/batch_01\n"
+    }
+  }
+}
