@@ -95,6 +95,12 @@ Not observing an event does not establish that the SDK cannot expose it.
 Non-activity SSE events are not yielded by the SDK and therefore are not
 captured. This is based on SDK source inspection, not a live authenticated run.
 
+Offline SDK tests (no credentials needed):
+
+```bash
+python -m unittest discover -s harness -p 'test_run_sdk.py'
+```
+
 ## Output
 
 - `harness/results.csv` - appended metric rows
