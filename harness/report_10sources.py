@@ -1,5 +1,6 @@
 """Build harness/report_10sources.html: summary comparison + all 110 conversations per agent."""
 import html
+import os
 import json
 import re
 import statistics as st
@@ -8,9 +9,10 @@ from pathlib import Path
 from analyze import phases, pct
 
 H = Path(__file__).parent
-rows = [json.loads(l) for l in open(H / "results.jsonl")]
-AGENTS = [("PWSharepointAgent", "sp10-baseline", "Copilot Studio + SharePoint (10 sources)"),
-          ("PWAISearchAgent", "ai10-baseline", "Copilot Studio + Azure AI Search (10 indexes)")]
+SDK = os.environ.get("SDK") == "1"
+rows = [json.loads(l) for f in (["sdk_original.jsonl", "sdk_aisearch.jsonl"] if SDK else ["results.jsonl"]) for l in open(H / f)]
+AGENTS = [("PWSharepointAgent", "sdk10-original" if SDK else "sp10-baseline", "Copilot Studio + SharePoint (10 sources)"),
+          ("PWAISearchAgent", "sdk10-aisearch" if SDK else "ai10-baseline", "Copilot Studio + Azure AI Search (10 indexes)")]
 BAD = re.compile(r"not sure how to help|something unexpected|SystemError|Error code", re.I)
 CITE = re.compile(r"https?://|\[\d+\]")
 
@@ -138,7 +140,7 @@ details summary{{cursor:pointer;color:#245}} details{{white-space:pre-wrap}}
 </style></head><body>
 <h1>10-source RAG agent benchmark (Copilot Studio)</h1>
 <div class="sub">Both agents now have 10 knowledge sources (about 3 GB of data). 22 user queries x 5 runs each, one new conversation per query.
-Run on 2026-10-05, both benchmarks in parallel from the same machine. Click an answer to expand it. Yellow rows are over 30s, red rows are empty or fallback answers.</div>
+{"Driver: Copilot Studio Agents SDK (CopilotClient). " if SDK else ""}Run on {"2026-10-06" if SDK else "2026-10-05"}, both benchmarks in parallel from the same machine. Click an answer to expand it. Yellow rows are over 30s, red rows are empty or fallback answers.</div>
 
 <h2>Summary: SharePoint vs Azure AI Search</h2>
 <table class="summary"><thead><tr><th>Metric</th><th>PWSharepointAgent<br><small>SharePoint, 10 folders</small></th>
@@ -146,13 +148,40 @@ Run on 2026-10-05, both benchmarks in parallel from the same machine. Click an a
 <ul>
 <li>AI Search is about {sp['p50'] / ai['p50']:.1f}x faster at p50. The whole gap is the knowledge-search phase: SharePoint search is {sp['search'] - ai['search']:.1f}s slower at p50, versus a {sp['p50'] - ai['p50']:.1f}s total gap (AI Search generation is about 1s slower, which offsets some of it).</li>
 <li>AI Search is much more predictable: within-question std dev {ai['qsd']:.1f}s versus {sp['qsd']:.1f}s for SharePoint, and its slowest conversation took {ai['mx']:.0f}s versus {sp['mx']:.0f}s.</li>
-<li>Configuration differences: PWAISearchAgent had "Allow ungrounded responses" (model knowledge) ON during this run and was turned off afterwards, so these numbers do not yet reflect that change. PWSharepointAgent has model knowledge off.</li>
+<li>Configuration: {"PWAISearchAgent had 'Allow ungrounded responses' turned OFF and published (2026-10-05 17:05 UTC) before this run, unlike the 2026-10-05 benchmark. PWSharepointAgent has model knowledge off." if SDK else "PWAISearchAgent had 'Allow ungrounded responses' (model knowledge) ON during this run and was turned off afterwards. PWSharepointAgent has model knowledge off."}</li>
 <li>Phase definitions: plan is the time to the first plan event; search runs from the first search step to the first answer token; generation is the remainder. Search steps counted from DynamicPlanStepFinished events.</li>
-<li>Both agents answered every conversation (no empty, fallback or error answers in this run). In the earlier functional test SharePoint did return one empty answer and one fallback on a batch_10 question, so it is not fully reliable.</li>
+<li>Answer health: {"; ".join(f"{n}: {sum(x['bad'] for x in data[n])} empty/fallback answers out of {len(data[n])}" for n in data)}.</li>
+</ul>
+
+
+<h2>Benchmark notes, setup and references</h2>
+<ul>
+<li><b>1. Benchmark design.</b> Two Copilot Studio agents are compared: <b>PWSharepointAgent</b> (10 SharePoint knowledge sources, searched by Copilot Studio's built-in SharePoint knowledge) and <b>PWAISearchAgent</b> (10 Azure AI Search knowledge sources, one index per batch). 22 queries x 5 runs per agent, one new conversation per query, latency measured end to end.
+ <a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-copilot-studio">Knowledge sources overview</a> |
+ <a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-add-sharepoint">SharePoint as knowledge</a> |
+ <a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-azure-ai-search">Azure AI Search as knowledge</a></li>
+<li><b>2. Benchmark scripts.</b> Python, using the Microsoft 365 Agents SDK Copilot Studio client (<code>microsoft-agents-copilotstudio-client</code>: <code>CopilotClient</code>, <code>start_conversation</code>, <code>ask_question</code>). Every streamed activity is timestamped on arrival, so plan, search and generation phases are derived from the plan events. The earlier benchmark used the REST endpoint behind the same client.
+ <a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/publication-integrate-web-or-native-app-m365-agents-sdk">Integrate with the Microsoft 365 Agents SDK</a> |
+ <a href="https://github.com/microsoft/Agents-for-python/tree/main/libraries/microsoft-agents-copilotstudio-client">Python client library</a> |
+ <a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/kit-agent-debugger">Agent debugger (performance timeline)</a> |
+ <a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/kit-enable-application-insights">Application Insights</a></li>
+<li><b>3. Dataset.</b> About 1,000 PDF files (10 batches of about 100), each a research paper, about 3 GB in total. The same files back both agents: 10 SharePoint folders, and 10 Azure AI Search indexes (about 42,900 chunks, 1.9 GB of index).
+ <a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-unstructured-data">Unstructured data as knowledge</a></li>
+<li><b>4. SharePoint indexer permissions.</b> The Azure AI Search SharePoint Online indexer (preview) reads with Microsoft Graph application permissions <b>Files.Read.All</b> and <b>Sites.Read.All</b> (admin consent required), or <b>Sites.Selected</b> plus Files.Read.All to limit it to chosen sites. Delegated equivalents exist for the delegated-auth option.
+ <a href="https://learn.microsoft.com/en-us/azure/search/search-howto-index-sharepoint-online">SharePoint Online indexer</a></li>
+<li><b>5. Adding a SharePoint indexer to Azure AI Search.</b> Register an Entra app and grant the permissions above, create a SharePoint data source, create the index and an indexer, then run it and monitor status. Follow the doc rather than a copied step list, since the feature is in preview and changes.
+ <a href="https://learn.microsoft.com/en-us/azure/search/search-howto-index-sharepoint-online">Index data from SharePoint Online</a></li>
+<li><b>6. Results (total latency).</b> PWSharepointAgent p50 {sp['p50']:.1f}s, p90 {sp['p90']:.1f}s, p95 {sp['p95']:.1f}s. PWAISearchAgent p50 {ai['p50']:.1f}s, p90 {ai['p90']:.1f}s, p95 {ai['p95']:.1f}s.</li>
+<li><b>7. Private endpoint for Azure AI Search.</b> Copilot Studio reaches a private AI Search through the AI Search connector running in a Power Platform environment that is VNet-integrated (delegated subnet), with the search service behind a private endpoint in the same VNet. Reference architecture and security notes:
+ <a href="https://github.com/Azure-Samples/Copilot-Studio-with-Azure-AI-Search/blob/main/docs/security_considerations.md#architecture-diagram">Copilot Studio with Azure AI Search: security considerations</a> |
+ <a href="https://learn.microsoft.com/en-us/power-platform/admin/vnet-support-overview">Power Platform virtual network support</a> |
+ <a href="https://learn.microsoft.com/en-us/azure/search/service-create-private-endpoint">Private endpoint for Azure AI Search</a></li>
+<li><b>8. Phase definitions.</b> Plan: time to the first plan event. Search: first search step to the first answer text. Generation: the remainder. Percentiles use nearest-rank on 110 samples per agent.</li>
+<li><b>9. Caveats.</b> Both benchmarks ran in parallel from one machine. Answer quality was spot-checked, not scored. Results depend on region, tenant load and agent configuration at the time of the run.</li>
 </ul>
 
 {detail("PWSharepointAgent", "PWSharepointAgent (Copilot Studio + SharePoint)")}
 {detail("PWAISearchAgent", "PWAISearchAgent (Copilot Studio + Azure AI Search)")}
 </body></html>"""
-(H / "report_10sources.html").write_text(doc)
+(H / ("report_10sources_sdk.html" if SDK else "report_10sources.html")).write_text(doc)
 print("wrote", len(doc))
