@@ -1,0 +1,42 @@
+[
+ {
+  "step": "semantic_search_off",
+  "n": 22,
+  "plan_s": 2.2,
+  "search_s": 11.1,
+  "gen_s": 3.3,
+  "total_s": 16.6,
+  "kept": false,
+  "prev_best": 16.8
+ },
+ {
+  "step": "model_mini",
+  "n": 22,
+  "plan_s": 1.3,
+  "search_s": -0.9,
+  "gen_s": 22.1,
+  "total_s": 22.4,
+  "kept": false,
+  "prev_best": 16.8
+ },
+ {
+  "step": "concise_instructions",
+  "n": 21,
+  "plan_s": 2.0,
+  "search_s": 11.0,
+  "gen_s": 1.8,
+  "total_s": 13.7,
+  "kept": true,
+  "prev_best": 16.8
+ },
+ {
+  "step": "model_knowledge_off",
+  "n": 22,
+  "plan_s": 2.1,
+  "search_s": 14.5,
+  "gen_s": 1.7,
+  "total_s": 18.1,
+  "kept": false,
+  "prev_best": 13.7
+ }
+]
