@@ -1,0 +1,11 @@
+# Representative SharePoint/arXiv retrieval questions for batch_01.
+Summarize the paper "Multiple Imputation of Hierarchical Nonlinear Time Series Data with an Application to School Enrollment Data" and explain the practical problem it is solving.
+What is the core idea in "Dicke superradiant enhancement of the heat current in circuit QED", and why is it important?
+For the paper "Measuring the performance of investments in information security startups: An empirical analysis by cybersecurity sectors using Crunchbase data", what data did the authors analyze and what were the main findings by sector?
+Explain "Conditionally Affinely Invariant Rerandomization and its Admissible Complete Class" in plain English and list the main methodological contribution.
+What does "FGBERT: Function-Driven Pre-trained Gene Language Model for Metagenomics" propose, and how is it useful for metagenomics workflows?
+What is the main result of "A Kakutani-Rokhlin decomposition for conditionally ergodic process in the measure-free setting of vector lattices"?
+Give me a concise explanation of "On the weak-fragmentability index of some Lipschitz-free spaces" and define the central concept.
+What phenomenon is studied in "Continuous transition and gapless roton inside fractional quantum anomalous Hall states", and what makes the result notable?
+How do the authors of "Two-stage Estimators for Spatial Confounding with Point-Referenced Data" address spatial confounding, and when would someone use their approach?
+Summarize "On the algebra of equal-input matrices in time-inhomogeneous Markov flows" and explain what equal-input matrices are.
