@@ -1,0 +1,26 @@
+{
+  "captured_at": "2026-10-04T05:45:47.483450+00:00",
+  "step": "revert-classic_orchestration",
+  "note": "revert:classic_orchestration",
+  "clone_before": {
+    "bot": {
+      "id": "d6b522f1-a8bf-f111-aaaf-00224835685d",
+      "name": "PWSharepointAgent-Opt",
+      "publishedon": "2026-10-04T05:38:28Z",
+      "modifiedon": "2026-10-04T05:38:54Z",
+      "configuration": "{\n  \"$kind\": \"BotConfiguration\",\n  \"settings\": {\n    \"GenerativeActionsEnabled\": false\n  },\n  \"isAgentConnectable\": true,\n  \"gPTSettings\": {\n    \"$kind\": \"GPTSettings\",\n    \"defaultSchemaName\": \"new_PWSharepointAgentOpt.gpt.default\"\n  },\n  \"aISettings\": {\n    \"$kind\": \"AISettings\",\n    \"useModelKnowledge\": true,\n    \"isFileAnalysisEnabled\": true,\n    \"isSemanticSearchEnabled\": true,\n    \"contentModeration\": \"Low\",\n    \"optInUseLatestModels\": false\n  }\n}\n"
+    },
+    "gpt": {
+      "component_id": "59a25103-a9bf-f111-aaaf-00224835685d",
+      "name": "PWSharepointAgent-Opt",
+      "schemaname": "new_PWSharepointAgentOpt.gpt.default",
+      "data": "kind: GptComponentMetadata\ninstructions: Answer in 120 words or fewer. No preamble. Use only the provided knowledge sources. If the sources do not support the answer, say that you don't know.\ngptCapabilities:\n  webBrowsing: false\naISettings:\n  model:\n    modelNameHint: GPT56Chat\n"
+    },
+    "knowledge": {
+      "component_id": "a700c209-a9bf-f111-aaaf-00224835685d",
+      "name": "batch_01",
+      "schemaname": "new_PWSharepointAgentOpt.topic.batch_01_UdYzIvGoaEKDMGe3y1fao",
+      "data": "kind: KnowledgeSourceConfiguration\nsource:\n  kind: SharePointSearchSource\n  site: https://m365cpi88726844.sharepoint.com/sites/Contoso-Team-site/Shared%20Documents/arxiv/batch_01\n"
+    }
+  }
+}
