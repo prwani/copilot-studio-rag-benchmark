@@ -1,0 +1,6 @@
+For the speech-recognition model that supports verbatim and non-verbatim transcription, what word error rates do it and Whisper large-v3 achieve on Earnings21 and Earnings22?
+Which model extends Mistral from 32 to 36 transformer blocks, and what context lengths are used in its first two pre-training phases?
+What governance mechanism does the paper 'Economic DAO Governance: A Contestable Control Approach' propose?
+What do Chernikov, Gannon and Krupinski study in 'Definable convolution and idempotent Keisler measures III', and what conjecture is revisited?
+Which papers discuss auction-based governance and which discuss idempotent measures over definable groups?
+What is a good recipe for chocolate cake?

@@ -70,6 +70,18 @@ AGENTS: dict[str, AgentConfig] = {
         schema_name="cr350_PWAISearchAgentOpt",
         display_name="PWAISearchAgent-Opt",
     ),
+    "sp-single": AgentConfig(
+        key="sp-single",
+        bot_id="8555ab06-98c0-f111-aaaf-00224835685d",
+        schema_name="new_PWSharepointAgentSingleKS",
+        display_name="PWSharepointAgent-SingleKS",
+    ),
+    "ai-single": AgentConfig(
+        key="ai-single",
+        bot_id="9b9a0238-d3c0-f111-aaaf-00224835685d",
+        schema_name="cr350_PWAISearchAgentSingleKS",
+        display_name="PWAISearchAgent-SingleKS",
+    ),
 }
 
 

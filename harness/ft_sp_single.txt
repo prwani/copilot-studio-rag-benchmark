@@ -1,0 +1,14 @@
+PASS [batch_01 fact] 19.0s searches=1 
+    The model that supports both verbatim and non-verbatim transcription is Reverb ASR from Rev. On the Earnings21 and Earnings22 benchmarks, the reported word error rates (WER) are: [1]  - Reverb (Verbatim): 7.64% on Earnings21, 11.38% on Earnings22 - Whisper lar
+PASS [batch_01 fact] 24.6s searches=1 
+    The model is Moxin-7B, which extends the original Mistral architecture from 32 transformer blocks to 36 transformer blocks. The paper states: “While the original Mistral model comprises 32 blocks, our extended model uses 36 transformer blocks.” [1]  Its first 
+PASS [batch_05 fact] 19.8s searches=1 
+    The paper proposes a DAO governance mechanism based on a sequential auction system that creates “temporary contestable control.” Instead of relying primarily on token-holder voting, parties compete in auctions for the right to temporarily control the DAO and i
+PASS [batch_10 fact] 24.2s searches=1 
+    In “Definable convolution and idempotent Keisler measures III. Generic Stability, Generic Transitivity, and Revised Newelski’s Conjecture,” Chernikov, Gannon, and Krupiński study idempotent Keisler measures and the structure of convolution semigroups of measur
+PASS [cross-batch] 17.8s searches=1 
+    The paper that discusses auction-based governance is:  - “Economic DAO Governance: A Contestable Control Approach” (2403.16980v4) by Jeff Strnad. It proposes a sequential auction mechanism for DAO governance, using temporary contestable control through auction
+PASS [out of scope] 29.2s searches=1 
+    I am unable to provide a specific chocolate cake recipe based on the available information. However, the concept of a "recipe" is discussed as a metaphor in biology, where a recipe involves a set of ingredients and instructions, but the outcome is influenced b
+
+6/6 passed
